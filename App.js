@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RefreshCw } from 'lucide-react-native'; 
+import { AffirmationBox } from './components/AffirmationBox'; 
 
 export default function App() {
   const social_challenges = [
@@ -68,21 +69,56 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <View> 
+        <AffirmationBox />
+      </View>
       <View style={styles.card}>
         <Text style={styles.taskText}>{task}</Text>
       </View>
-      <Pressable
-        style={({ pressed }) => [
-          styles.button,
-          pressed && styles.buttonPressed // Apply buttonPressed style when pressed is true
-        ]}
-        onPress={() => {
-          Haptics.selectionAsync(Haptics.ImpactFeedbackStyle.Heavy);
-          setTask(getRandomTask());
-        }}>
-        <RefreshCw size={20} color="#000" style={{ marginRight: 8 }} />
-        <Text style={styles.buttonText}>New Task</Text>
-      </Pressable>
+      
+      <View style={styles.horizontalContainer}>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            pressed && styles.buttonPressed // apply buttonPressed style when pressed is true
+          ]}
+          onPress={() => {
+            Haptics.selectionAsync(Haptics.ImpactFeedbackStyle.Heavy);
+            setTask(getRandomTask());
+          }}>
+          <RefreshCw size={20} color="#ffffff" style={{ marginRight: 8 }} />
+          <Text style={styles.buttonText}>New Task</Text>
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            pressed && styles.buttonPressed // apply buttonPressed style when pressed is true
+          ]}
+          onPress={() => {
+            Haptics.selectionAsync(Haptics.ImpactFeedbackStyle.Heavy);
+            setTask(getRandomTask());
+          }}>
+          <RefreshCw size={20} color="#ffffff" style={{ marginRight: 8 }} />
+          <Text style={styles.buttonText}>Reflect!</Text>
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            pressed && styles.buttonPressed // apply buttonPressed style when pressed is true
+          ]}
+          onPress={() => {
+            Haptics.selectionAsync(Haptics.ImpactFeedbackStyle.Heavy);
+            setTask(getRandomTask());
+          }}>
+          <RefreshCw size={20} color="#ffffff" style={{ marginRight: 8 }} />
+          <Text style={styles.buttonText}>Done!</Text>
+        </Pressable>
+      
+      </View>
+      
 
       <StatusBar style="dark" />
     </View>
@@ -92,13 +128,29 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F7EDE2',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+  }, 
+  horizontalContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#C5D8D3', 
+    paddingVertical: 15, 
+    paddingHorizontal: 20,
+    borderRadius: 12, 
+    justifyContent: 'space-around', 
+    alignItems: 'center',
+    marginBottom: 25,
+    width: '95%', 
+    elevation: 4, 
+    shadowColor: '#000', 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15, 
+    shadowRadius: 5, 
   },
   card: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#ffffff',
     borderRadius: 10,
     padding: 20,
     marginBottom: 30,
@@ -121,7 +173,7 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#4CAF50', 
+    backgroundColor: '#84A59D', 
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 25,
@@ -132,7 +184,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   buttonPressed: {
-    backgroundColor: '#45a049', 
+    backgroundColor: '#71858C', 
   },
   buttonText: {
     color: '#fff',
