@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Animated, Easing } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RefreshCw, Check } from 'lucide-react-native'; 
 import { AffirmationBox } from './components/AffirmationBox'; 
 
 export default function App() {
   const social_challenges = [
-    // Social Interactions
     "Order food at a busy restaurant.",
     "Ask a store employee for help finding an item.",
     "Make eye contact with 5 strangers while walking past them.",
@@ -15,23 +14,23 @@ export default function App() {
     "Give a genuine compliment to a service person (e.g., cashier, barista).",
     "Attend a casual social gathering for 15 minutes.",
   ];
+
   const uncertainty_challenges = [
-    // General Discomfort & Uncertainty
     "Leave your phone at home for an hour while running an essential errand.",
     "Try a new route to a familiar destination you travel to regularly.",
     "Spend 10 minutes doing nothing but sitting quietly with your thoughts, without any distractions.",
     "Start a small task without a clear plan of how to finish it, and allow for improvisation.",
   ];
+
   const unfamiliar_challenges = [
-    // Public & Unfamiliar Settings
     "Sit alone at a coffee shop for 30 minutes, without distractions like a phone.",
     "Walk through a crowded area (e.g., mall, downtown street) for 10 minutes.",
     "Take public transportation during a non-peak hour for at least one stop.",
     "Visit a new part of your town or city that you haven't explored before.",
     "Browse in a store you've never been to before for at least 5 minutes.",
   ];
+
   const sensory_challenges = [
-    // Sensory & Situational Challenges
     "Listen to a genre of music you typically avoid for 15 minutes.",
     "Eat a food with a texture you dislike (e.g., mushrooms, jello) as part of a meal.",
     "Stand in line at a grocery store during a busy time (e.g., late afternoon) for 5-10 minutes.",
@@ -67,18 +66,43 @@ export default function App() {
     return allChallenges[newIndex];
   };
 
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const playDoneAnimation = () => {
+    scaleAnim.setValue(1);
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 0.95,
+        duration: 80,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+      Animated.spring(scaleAnim, {
+        toValue: 1.05,
+        friction: 3,
+        tension: 40,
+        useNativeDriver: true,
+      }),
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        friction: 4,
+        tension: 20,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
   return (
     <View style={styles.container}>
-      <View> 
+      <View>
         <AffirmationBox />
       </View>
-      <View style={styles.card}>
+
+      <Animated.View style={[styles.card, { transform: [{ scale: scaleAnim }] }]}>
         <Text style={styles.taskText}>{task}</Text>
-      </View>
-      
-      <View style={{
-        flexDirection: 'row',
-      }}>
+      </Animated.View>
+
+      <View style={{ flexDirection: 'row', gap: 12 }}>
         <Pressable
           style={({ pressed }) => [
             styles.button,
@@ -99,13 +123,13 @@ export default function App() {
           ]}
           onPress={() => {
             Haptics.selectionAsync(Haptics.ImpactFeedbackStyle.Heavy);
+            playDoneAnimation();
             setTask(getRandomTask());
           }}>
           <Check size={20} color="#ffffff" style={{ marginRight: 8 }} />
           <Text style={styles.buttonText}>Done!</Text>
         </Pressable>
-  </View>
-      
+      </View>
 
       <StatusBar style="dark" />
     </View>
@@ -115,61 +139,45 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    /* backgroundColor: '#F7EDE2', */
     backgroundColor: '#F7EDE2',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-  }, 
-  horizontalContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#C5D8D3', 
-    paddingVertical: 15, 
-    paddingHorizontal: 20,
-    borderRadius: 12, 
-    justifyContent: 'space-around', 
-    alignItems: 'center',
-    marginBottom: 25,
-    width: '95%', 
-    elevation: 4, 
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15, 
-    shadowRadius: 5, 
   },
   card: {
     backgroundColor: '#ffffff',
-    borderRadius: 10,
-    padding: 20,
+    borderRadius: 12,
+    padding: 24,
     marginBottom: 30,
     width: '90%',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 150,
-    elevation: 3, // For Android shadow
-    shadowColor: '#000', // For iOS shadow
-    shadowOffset: { width: 0, height: 2 },
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 6,
   },
   taskText: {
     fontSize: 22,
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#333',
+    lineHeight: 30,
   },
   button: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#84A59D', 
     paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     borderRadius: 25,
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
   },
   buttonPressed: {
     backgroundColor: '#71858C', 
@@ -177,6 +185,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 });
