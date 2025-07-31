@@ -76,12 +76,12 @@ export default function App() {
         <Text style={styles.taskText}>{task}</Text>
       </View>
       
-      <View style={styles.horizontalContainer}>
+      <View >
 
         <Pressable
           style={({ pressed }) => [
             styles.button,
-            pressed && styles.buttonPressed // apply buttonPressed style when pressed is true
+            pressed && styles.buttonPressed 
           ]}
           onPress={() => {
             Haptics.selectionAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -90,34 +90,7 @@ export default function App() {
           <RefreshCw size={20} color="#ffffff" style={{ marginRight: 8 }} />
           <Text style={styles.buttonText}>New Task</Text>
         </Pressable>
-
-        <Pressable
-          style={({ pressed }) => [
-            styles.button,
-            pressed && styles.buttonPressed // apply buttonPressed style when pressed is true
-          ]}
-          onPress={() => {
-            Haptics.selectionAsync(Haptics.ImpactFeedbackStyle.Heavy);
-            setTask(getRandomTask());
-          }}>
-          <RefreshCw size={20} color="#ffffff" style={{ marginRight: 8 }} />
-          <Text style={styles.buttonText}>Reflect!</Text>
-        </Pressable>
-
-        <Pressable
-          style={({ pressed }) => [
-            styles.button,
-            pressed && styles.buttonPressed // apply buttonPressed style when pressed is true
-          ]}
-          onPress={() => {
-            Haptics.selectionAsync(Haptics.ImpactFeedbackStyle.Heavy);
-            setTask(getRandomTask());
-          }}>
-          <RefreshCw size={20} color="#ffffff" style={{ marginRight: 8 }} />
-          <Text style={styles.buttonText}>Done!</Text>
-        </Pressable>
-      
-      </View>
+  </View>
       
 
       <StatusBar style="dark" />
