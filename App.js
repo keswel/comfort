@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import * as Haptics from 'expo-haptics';
-import { RefreshCw } from 'lucide-react-native'; 
+import { RefreshCw, Check } from 'lucide-react-native'; 
 import { AffirmationBox } from './components/AffirmationBox'; 
 
 export default function App() {
@@ -76,8 +76,9 @@ export default function App() {
         <Text style={styles.taskText}>{task}</Text>
       </View>
       
-      <View >
-
+      <View style={{
+        flexDirection: 'row',
+      }}>
         <Pressable
           style={({ pressed }) => [
             styles.button,
@@ -88,7 +89,20 @@ export default function App() {
             setTask(getRandomTask());
           }}>
           <RefreshCw size={20} color="#ffffff" style={{ marginRight: 8 }} />
-          <Text style={styles.buttonText}>New Task</Text>
+          <Text style={styles.buttonText}>Refresh</Text>
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            pressed && styles.buttonPressed 
+          ]}
+          onPress={() => {
+            Haptics.selectionAsync(Haptics.ImpactFeedbackStyle.Heavy);
+            setTask(getRandomTask());
+          }}>
+          <Check size={20} color="#ffffff" style={{ marginRight: 8 }} />
+          <Text style={styles.buttonText}>Done!</Text>
         </Pressable>
   </View>
       
@@ -101,6 +115,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    /* backgroundColor: '#F7EDE2', */
     backgroundColor: '#F7EDE2',
     alignItems: 'center',
     justifyContent: 'center',
@@ -148,7 +163,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#84A59D', 
     paddingVertical: 12,
-    paddingHorizontal: 25,
+    paddingHorizontal: 16,
     borderRadius: 25,
     elevation: 3,
     shadowColor: '#000',
