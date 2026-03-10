@@ -1,7 +1,8 @@
 # comfort
 
 Small, everyday challenges for building discomfort tolerance. Covers social situations, sensory experiences, uncertainty, and unfamiliar environments.
-![editcomfortgif](https://github.com/user-attachments/assets/fd22de9c-c3f1-4eeb-9d84-c7813ab2274f)
+![gifcomfort2](https://github.com/user-attachments/assets/6ea50ab2-aaa5-466c-a2a6-8c66ff54d13e)
+
 
 ## Stack
 
